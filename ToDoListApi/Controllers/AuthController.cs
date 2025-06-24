@@ -26,11 +26,11 @@ namespace ToDoListApi.Controllers
         [HttpPost("register")]
         public IActionResult Register([FromBody] UserRequestDto dto)
         {
-            if (_context.Users.Any(u => u.Username == dto.Username))
+            if (_context.Users.Any(u => u.Username == dto.Email))
                 return BadRequest("Username already exists");
             var user = new User
             {
-                Username = dto.Username
+                Username = dto.Email
             };
             user.PasswordHash = _passwordHasher.HashPassword(user, dto.Password);
             _context.Users.Add(user);
@@ -42,7 +42,7 @@ namespace ToDoListApi.Controllers
         [HttpPost("login")]
         public IActionResult Login([FromBody] UserRequestDto dto)
         {
-            var user = _context.Users.SingleOrDefault(u => u.Username == dto.Username);
+            var user = _context.Users.SingleOrDefault(u => u.Username == dto.Email);
             if (user == null)
                 return Unauthorized();
             var result = _passwordHasher.VerifyHashedPassword(user, user.PasswordHash, dto.Password);
@@ -74,7 +74,7 @@ namespace ToDoListApi.Controllers
 
     public class UserRequestDto
     {
-        public string Username { get; set; }
+        public string Email { get; set; }
         public string Password { get; set; }
     }
 

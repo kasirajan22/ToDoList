@@ -23,6 +23,7 @@ export class AuthService {
   }
 
   register(credentials: User): Observable<AuthResponse>{
+    console.log('Registering user:', credentials);
     return this.http.post<AuthResponse>(this.apiUrl + 'api/auth/register', credentials)
     .pipe(
       tap((resp) => {

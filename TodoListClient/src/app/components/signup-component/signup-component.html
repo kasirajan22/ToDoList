@@ -7,32 +7,41 @@
         </div>
 
         <div class="card-body">
+          <div class="alert alert-danger" *ngIf="errorMessage"> {{ errorMessage }}</div>
           <form [formGroup]="signupForm" (ngSubmit)="onSubmit()">
             <!-- Email -->
             <div class="form-floating mb-3">
-              <input type="email" id="email" class="form-control" placeholder="name@example.com" required>
+              <input type="email" id="email" class="form-control" placeholder="name@example.com" formControlName="email"
+              [ngClass]="{'is-invalid' : hasError('email','required') || hasError('email','email')}">
               <label for="email">Email address</label>
-              <div class="invalid-feedback">Please enter a valid email.</div>
+              <div class="invalid-feedback" *ngIf="hasError('email','required')">
+                                Email is required.
+                            </div>
+                            <div class="invalid-feedback" *ngIf="hasError('email','email')">
+                                Please enter valid email.
+                            </div>
             </div>
 
             <!-- Password & Confirm -->
             <div class="input-group mb-3">
               <div class="form-floating flex-grow-1">
-                <input type="password" id="password" class="form-control border-end-0"
-                       placeholder="Password" required>
+                <input type="password" id="password" class="form-control" placeholder="Password" formControlName="password" 
+                [ngClass]="{'is-invalid': hasError('password','required') || hasError('password','minlength')}">
                 <label for="password">Password</label>
-                <div class="invalid-feedback">Password is required.</div>
+                <div class="invalid-feedback" *ngIf="hasError('password','required')" >Password is required.</div>
+                <div class="invalid-feedback" *ngIf="hasError('password','minlength')" >Password must be atlest 6 char long.</div>
               </div>
             </div>
 
             <div class="form-floating mb-3">
-              <input type="password" id="confirmPassword" class="form-control"
-                     placeholder="Confirm password" required>
+              <input type="password" id="confirmPassword" class="form-control" placeholder="Confirm password" formControlName="confirmPassword"
+              [ngClass]="{'is-invalid': hasError('confirmPassword','required') || signupForm.hasError('confirmPasswordNotMatching')}">
               <label for="confirmPassword">Confirm password</label>
-              <div class="invalid-feedback">Please confirm your password.</div>
+              <div class="invalid-feedback" *ngIf="hasError('confirmPassword','required')">Please confirm your password.</div>
+              <div class="invalid-feedback" *ngIf="signupForm.hasError('confirmPasswordNotMatching') && signupForm.get('confirmPassword')?.touched">Passwords do not match.</div>
             </div>
 
-            <button class="btn btn-primary w-100" type="submit">Sign up</button>
+            <button class="btn btn-primary w-100" type="submit" [disabled]="!signupForm.valid">Sign up</button>
 
             <div class="text-center mt-3">
                             <p class="mb-0">Already have an account? <a [routerLink]="'/login'" class="text-primary">Login</a></p>
