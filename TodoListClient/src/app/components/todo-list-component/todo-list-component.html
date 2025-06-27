@@ -1,1 +1,46 @@
-<p>todo-list-component works!</p>
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-12 col-md-8 col-lg-6 col-xl-8">
+            <div class="card shadow-sm">
+                <div class="card-header bg-primary text-white text-center">
+                    <h4 class="mb-0">Todo List</h4>
+                </div>
+
+                <div class="card-body">
+
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">Title</th>
+                                <th scope="col">Description</th>
+                                <th scope="col">CreatedAt</th>
+                                <th scope="col">CompletedAt</th>
+                                <th scope="col">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngIf="taskList.length === 0">
+                                <td colspan="5" class="text-center">No Todos found.</td>
+                            </tr>
+                            <tr *ngFor="let task of taskList">
+                                <td>{{task.title}}</td>
+                                <td>{{task.description}}</td>
+                                <td>{{task.createdAt | date:'short'}}</td>
+                                <td>
+                                    {{task.completedAt | date:'short'}}</td>
+                                <td>
+                                    <button class="btn btn-sm btn-outline-primary me-1"
+                                        (click)="editTransaction(task)"><i class="bi bi-pencil"></i></button>
+                                    <button class="btn btn-sm btn-outline-danger me-1"
+                                        (click)="deleteTransaction(task)"><i class="bi bi-trash"></i></button>
+
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

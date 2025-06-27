@@ -11,20 +11,20 @@ private apiUrl = 'http://localhost:5210/';
   constructor(private http: HttpClient) { }
 
   getAll(): Observable<Task[]> {
-    return this.http.get<Task[]>(this.apiUrl + 'api/tasks');
+    return this.http.get<Task[]>(this.apiUrl + 'api/todo');
   }
 
   getById(id: number): Observable<Task> {
-    return this.http.get<Task>(`${this.apiUrl}api/task/${id}`);
+    return this.http.get<Task>(`${this.apiUrl}api/todo/${id}`);
   }
 
   create(task: Task): Observable<Task> {
-    return this.http.post<Task>(this.apiUrl + 'api/task', task);
+    return this.http.post<Task>(this.apiUrl + 'api/todo', task);
   }
-  update(task: Task): Observable<Task> {
-    return this.http.put<Task>(`${this.apiUrl}api/task/${task.id}`, task);
+  update(id: number,task: Task): Observable<Task> {
+    return this.http.put<Task>(`${this.apiUrl}api/todo/${id}`, task);
   }
   delete(id:number): Observable<void>{
-    return this.http.delete<void>(`${this.apiUrl}api/task/${id}`);
+    return this.http.delete<void>(`${this.apiUrl}api/todo/${id}`);
   }
 }
